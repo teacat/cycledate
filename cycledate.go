@@ -14,6 +14,7 @@ const (
 	CycleYearly
 )
 
+// lastDay
 func lastDay(year int, month time.Month) time.Time {
 	firstday := time.Date(year, month, 1, 0, 0, 0, 0, time.Local)
 	lastday := firstday.AddDate(0, 1, 0).Add(time.Nanosecond * -1)
@@ -33,7 +34,6 @@ func Next(t time.Time, cycle Cycle) time.Time {
 		return t.Add(time.Hour * 24 * 7)
 	case CycleMonthly:
 		nextCycleLastDay := lastDay(year, month+1)
-		//nextCycle := time.Date(year, month+1, 0, hour, minute, second, 0, t.Location()) // last day of the next cycle month
 		// If the day of today doesn't exist in the next month (e.g. 01/31 > 02/28)
 		if t.Day() > nextCycleLastDay.Day() {
 			return time.Date(year, month+1, nextCycleLastDay.Day(), hour, minute, second, 0, t.Location())
@@ -42,7 +42,6 @@ func Next(t time.Time, cycle Cycle) time.Time {
 		}
 	case CycleYearly:
 		nextCycleLastDay := lastDay(year+1, month)
-		//nextCycle := time.Date(year+1, month, 0, hour, minute, second, 0, t.Location()) // last day of the next cycle month
 		// If the day of today doesn't exist in the next year (e.g. 01/31 > 02/28)
 		if t.Day() > nextCycleLastDay.Day() {
 			return time.Date(year+1, month, nextCycleLastDay.Day(), hour, minute, second, 0, t.Location())
